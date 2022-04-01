@@ -26,55 +26,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RNOlk88CCTVXbC7GIB2RlGqlox4=
+			GFkpizp9Ce+GtswXtp5K4RFtucM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RKvveebjMTdHC+OkpL/13zZWJ+pVzEts99RBGuhH4JM=
+			6/fLtiyDRSqWzGmfJOx6zSJ5BOGfL+rM5XCz1h4KLtQ=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RNOlk88CCTVXbC7GIB2RlGqlox4=
+			GFkpizp9Ce+GtswXtp5K4RFtucM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RKvveebjMTdHC+OkpL/13zZWJ+pVzEts99RBGuhH4JM=
+			6/fLtiyDRSqWzGmfJOx6zSJ5BOGfL+rM5XCz1h4KLtQ=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/Project/x86_64-apple-macos.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hgrZq4c3/Ey1vs5YnrqtG4tVc+U=
+			NgKFBkrPHA1pFmwLgXuhM+brGEI=
 			</data>
 			<key>hash2</key>
 			<data>
-			HcQRBsUecF1xytoFbpcsqY5yz414yME9+WgPouOrnf4=
+			hZNm7Nf0BLQ18l/LNArZZFdcBb6AoPQVh0Fhzn75xbc=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/Project/x86_64.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hgrZq4c3/Ey1vs5YnrqtG4tVc+U=
+			NgKFBkrPHA1pFmwLgXuhM+brGEI=
 			</data>
 			<key>hash2</key>
 			<data>
-			HcQRBsUecF1xytoFbpcsqY5yz414yME9+WgPouOrnf4=
+			hZNm7Nf0BLQ18l/LNArZZFdcBb6AoPQVh0Fhzn75xbc=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/arm64-apple-macos.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mrE+ddxZ9Z67mX2AaD57tM8XWIw=
+			I2tZtazObLaqrSMirbpFDXhpT+k=
 			</data>
 			<key>hash2</key>
 			<data>
-			zOKb4/7JlFu6p9zJdFEPVMDX0GEe8b1YsIez895/pU8=
+			Lj13maovjfebpqAUgDQ8QXCLjq2YWnl8OrdXdgnEotM=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/arm64-apple-macos.swiftinterface</key>
@@ -92,22 +92,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jSRLb52r/aEpbrNKl678WPMl/Cg=
+			PMKPZ/JfqTPRzn2Amz3c8fTAppM=
 			</data>
 			<key>hash2</key>
 			<data>
-			r2lLM6z3o6oseNkCwT+JM1+ViOBmF6i5fsyG+Vn13iA=
+			ZXIyfLEXququCdwAYE81caAZ6Bxu2pJBkTRgXIr4riA=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mrE+ddxZ9Z67mX2AaD57tM8XWIw=
+			I2tZtazObLaqrSMirbpFDXhpT+k=
 			</data>
 			<key>hash2</key>
 			<data>
-			zOKb4/7JlFu6p9zJdFEPVMDX0GEe8b1YsIez895/pU8=
+			Lj13maovjfebpqAUgDQ8QXCLjq2YWnl8OrdXdgnEotM=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/arm64.swiftinterface</key>
@@ -125,22 +125,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jSRLb52r/aEpbrNKl678WPMl/Cg=
+			PMKPZ/JfqTPRzn2Amz3c8fTAppM=
 			</data>
 			<key>hash2</key>
 			<data>
-			r2lLM6z3o6oseNkCwT+JM1+ViOBmF6i5fsyG+Vn13iA=
+			ZXIyfLEXququCdwAYE81caAZ6Bxu2pJBkTRgXIr4riA=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/x86_64-apple-macos.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			e3/Ow/umbWBSrFEM63HpmBgwrTo=
+			NopJRTch0i7oVsZF0WrwD+8JMGY=
 			</data>
 			<key>hash2</key>
 			<data>
-			W9s2fJrsIWC7Eijk+Ci8qB4PqlP+EfZtalXnz4zIlg8=
+			CXMMT4gJ8WbYDIettKojOwx+jNggW8ZOvuoAVRRnWBc=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/x86_64-apple-macos.swiftinterface</key>
@@ -158,22 +158,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			OUxEn0+V3phmqkdJGwIpQUOEA10=
+			ezV706GmQNS6jYH+aALWY0+MKNI=
 			</data>
 			<key>hash2</key>
 			<data>
-			6WIJPU456Q+WXYxa1zor0L3VI3VnYymsot5ShanfVTY=
+			CZALrbldJSUN1j1nE85uR6AW54N5S1Wki39WPr+m9co=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			e3/Ow/umbWBSrFEM63HpmBgwrTo=
+			NopJRTch0i7oVsZF0WrwD+8JMGY=
 			</data>
 			<key>hash2</key>
 			<data>
-			W9s2fJrsIWC7Eijk+Ci8qB4PqlP+EfZtalXnz4zIlg8=
+			CXMMT4gJ8WbYDIettKojOwx+jNggW8ZOvuoAVRRnWBc=
 			</data>
 		</dict>
 		<key>Modules/sEndpointSecurity.swiftmodule/x86_64.swiftinterface</key>
@@ -191,11 +191,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			OUxEn0+V3phmqkdJGwIpQUOEA10=
+			ezV706GmQNS6jYH+aALWY0+MKNI=
 			</data>
 			<key>hash2</key>
 			<data>
-			6WIJPU456Q+WXYxa1zor0L3VI3VnYymsot5ShanfVTY=
+			CZALrbldJSUN1j1nE85uR6AW54N5S1Wki39WPr+m9co=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
