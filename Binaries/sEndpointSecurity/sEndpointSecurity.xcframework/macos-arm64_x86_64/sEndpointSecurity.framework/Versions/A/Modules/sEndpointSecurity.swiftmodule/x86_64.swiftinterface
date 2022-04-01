@@ -1,0 +1,736 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target x86_64-apple-macos10.15 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name sEndpointSecurity
+import Combine
+import EndpointSecurity
+import Foundation
+import Swift
+import SwiftConvenience
+import _Concurrency
+public class ESClient {
+  public var config: sEndpointSecurity.ESClient.Config
+  public var messageFilterHandler: ((sEndpointSecurity.ESMessagePtr, sEndpointSecurity.ESProcess) -> Swift.Bool)?
+  public var authMessageHandler: ((sEndpointSecurity.ESMessagePtr, @escaping (sEndpointSecurity.ESAuthResolution) -> Swift.Void) -> Swift.Void)?
+  public var postAuthMessageHandler: ((sEndpointSecurity.ESMessagePtr, sEndpointSecurity.ESClient.ResponseInfo) -> Swift.Void)?
+  public var notifyMessageHandler: ((sEndpointSecurity.ESMessagePtr) -> Swift.Void)?
+  public var eventQueue: Dispatch.DispatchQueue
+  convenience public init?(status: inout EndpointSecurity.es_new_client_result_t)
+  public init() throws
+  @objc deinit
+  public func subscribe(_ events: [EndpointSecurity.es_event_type_t]) -> Swift.Bool
+  public func unsubscribe(_ events: [EndpointSecurity.es_event_type_t]) -> Swift.Bool
+  public func unsubscribeAll() -> Swift.Bool
+  public func clearCache() -> EndpointSecurity.es_clear_cache_result_t
+  public func muteProcess(_ mute: sEndpointSecurity.ESMuteProcess) -> Swift.Bool
+  public func unmuteProcess(_ mute: sEndpointSecurity.ESMuteProcess) -> Swift.Bool
+  public func mutePath(prefix: Swift.String) -> Swift.Bool
+  public func mutePath(literal: Swift.String) -> Swift.Bool
+  public func unmuteAllPaths() -> Swift.Bool
+}
+extension sEndpointSecurity.ESClient {
+  public struct Config {
+    public var messageTimeout: sEndpointSecurity.ESClient.Config.MessageTimeout
+    public enum MessageTimeout {
+      case ratio(Swift.Double)
+      case seconds(Foundation.TimeInterval)
+    }
+  }
+  public enum ResponseReason {
+    case muted
+    case timeout
+    case normal
+    public static func == (a: sEndpointSecurity.ESClient.ResponseReason, b: sEndpointSecurity.ESClient.ResponseReason) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public struct ResponseInfo {
+    public var reason: sEndpointSecurity.ESClient.ResponseReason
+    public var resolution: sEndpointSecurity.ESAuthResolution
+    public var status: EndpointSecurity.es_respond_result_t
+  }
+}
+public struct ESAuthResolution : Swift.Equatable, Swift.Codable {
+  public var result: sEndpointSecurity.ESAuthResult
+  public var cache: Swift.Bool
+  public init(result: sEndpointSecurity.ESAuthResult, cache: Swift.Bool)
+  public static func == (a: sEndpointSecurity.ESAuthResolution, b: sEndpointSecurity.ESAuthResolution) -> Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension sEndpointSecurity.ESAuthResolution {
+  public static let allow: sEndpointSecurity.ESAuthResolution
+  public static let allowOnce: sEndpointSecurity.ESAuthResolution
+  public static let deny: sEndpointSecurity.ESAuthResolution
+  public static let denyOnce: sEndpointSecurity.ESAuthResolution
+}
+public enum ESMuteProcess : Swift.Hashable, Swift.Codable {
+  case token(Darwin.audit_token_t)
+  case pid(Darwin.pid_t)
+  case euid(Darwin.uid_t)
+  case name(Swift.String)
+  case pathPrefix(Swift.String)
+  case pathLiteral(Swift.String)
+  case teamIdentifier(Swift.String)
+  case signingID(Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: sEndpointSecurity.ESMuteProcess, b: sEndpointSecurity.ESMuteProcess) -> Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct ESClientCreateError : Swift.Error {
+  public var status: EndpointSecurity.es_new_client_result_t
+}
+@dynamicMemberLookup public class ESMessagePtr {
+  final public let unsafeRawMessage: Swift.UnsafePointer<EndpointSecurity.es_message_t>
+  public init(message: Swift.UnsafePointer<EndpointSecurity.es_message_t>)
+  public init(unowned message: Swift.UnsafePointer<EndpointSecurity.es_message_t>)
+  public init(data: Foundation.Data) throws
+  @objc deinit
+  public func serialized() throws -> Foundation.Data
+  public func converted() throws -> sEndpointSecurity.ESMessage
+}
+extension sEndpointSecurity.ESMessagePtr {
+  public func withRawMessagePtr<R>(_ body: (Swift.UnsafePointer<EndpointSecurity.es_message_t>) throws -> R) rethrows -> R
+  public func withRawMessage<R>(_ body: (EndpointSecurity.es_message_t) throws -> R) rethrows -> R
+  public subscript<Local>(dynamicMember keyPath: Swift.KeyPath<EndpointSecurity.es_message_t, Local>) -> Local {
+    get
+  }
+}
+extension EndpointSecurity.es_event_type_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_event_type_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_auth_result_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_auth_result_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_result_type_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_result_type_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_return_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_return_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_respond_result_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_respond_result_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_new_client_result_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_new_client_result_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension EndpointSecurity.es_clear_cache_result_t : Swift.Hashable {
+}
+extension EndpointSecurity.es_clear_cache_result_t : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public struct ESConverter {
+  public var version: Swift.UInt32
+  public init(version: Swift.UInt32)
+}
+extension sEndpointSecurity.ESConverter {
+  public static func esMessage(_ es: EndpointSecurity.es_message_t) throws -> sEndpointSecurity.ESMessage
+}
+extension sEndpointSecurity.ESConverter {
+  public func esString(_ es: EndpointSecurity.es_string_token_t) -> Swift.String
+  public func esToken(_ es: EndpointSecurity.es_token_t) -> Foundation.Data
+  public func esFile(_ es: EndpointSecurity.es_file_t) -> sEndpointSecurity.ESFile
+  public func esFile(_ es: Swift.UnsafeMutablePointer<EndpointSecurity.es_file_t>) -> sEndpointSecurity.ESFile
+  public func esProcess(_ es: EndpointSecurity.es_process_t) -> sEndpointSecurity.ESProcess
+  public func esProcess(_ es: Swift.UnsafeMutablePointer<EndpointSecurity.es_process_t>) -> sEndpointSecurity.ESProcess
+  public func esThread(_ es: EndpointSecurity.es_thread_t) -> sEndpointSecurity.ESThread
+  public func esThreadState(_ es: EndpointSecurity.es_thread_state_t) throws -> sEndpointSecurity.ESThreadState
+  public func esAuthResult(_ es: EndpointSecurity.es_result_t) throws -> sEndpointSecurity.ESAuthResult
+  public func esAction(_ type: EndpointSecurity.es_action_type_t, _ action: EndpointSecurity.es_message_t.__Unnamed_union_action) throws -> sEndpointSecurity.ESMessage.Action
+  public func esEvent(_ type: EndpointSecurity.es_event_type_t, _ event: EndpointSecurity.es_events_t) throws -> sEndpointSecurity.ESEvent
+  public func esEvent(access es: EndpointSecurity.es_event_access_t) -> sEndpointSecurity.ESEvent.Access
+  public func esEvent(chdir es: EndpointSecurity.es_event_chdir_t) -> sEndpointSecurity.ESEvent.Chdir
+  public func esEvent(chroot es: EndpointSecurity.es_event_chroot_t) -> sEndpointSecurity.ESEvent.Chroot
+  public func esEvent(clone es: EndpointSecurity.es_event_clone_t) -> sEndpointSecurity.ESEvent.Clone
+  public func esEvent(copyfile es: EndpointSecurity.es_event_copyfile_t) -> sEndpointSecurity.ESEvent.CopyFile
+  public func esEvent(close es: EndpointSecurity.es_event_close_t) -> sEndpointSecurity.ESEvent.Close
+  public func esEvent(create es: EndpointSecurity.es_event_create_t) throws -> sEndpointSecurity.ESEvent.Create
+  public func esEvent(deleteextattr es: EndpointSecurity.es_event_deleteextattr_t) -> sEndpointSecurity.ESEvent.DeleteExtAttr
+  public func esEvent(dup es: EndpointSecurity.es_event_dup_t) -> sEndpointSecurity.ESEvent.Dup
+  public func esEvent(exchangedata es: EndpointSecurity.es_event_exchangedata_t) -> sEndpointSecurity.ESEvent.ExchangeData
+  public func esEvent(exec es: EndpointSecurity.es_event_exec_t) -> sEndpointSecurity.ESEvent.Exec
+  public func esEvent(exit es: EndpointSecurity.es_event_exit_t) -> sEndpointSecurity.ESEvent.Exit
+  public func esEvent(file_provider_materialize es: EndpointSecurity.es_event_file_provider_materialize_t) -> sEndpointSecurity.ESEvent.FileProviderMaterialize
+  public func esEvent(file_provider_update es: EndpointSecurity.es_event_file_provider_update_t) -> sEndpointSecurity.ESEvent.FileProviderUpdate
+  public func esEvent(fcntl es: EndpointSecurity.es_event_fcntl_t) -> sEndpointSecurity.ESEvent.Fcntl
+  public func esEvent(fork es: EndpointSecurity.es_event_fork_t) -> sEndpointSecurity.ESEvent.Fork
+  public func esEvent(fsgetpath es: EndpointSecurity.es_event_fsgetpath_t) -> sEndpointSecurity.ESEvent.FsGetPath
+  public func esEvent(get_task es: EndpointSecurity.es_event_get_task_t) -> sEndpointSecurity.ESEvent.GetTask
+  public func esEvent(get_task_read es: EndpointSecurity.es_event_get_task_read_t) -> sEndpointSecurity.ESEvent.GetTaskRead
+  public func esEvent(get_task_inspect es: EndpointSecurity.es_event_get_task_inspect_t) -> sEndpointSecurity.ESEvent.GetTaskInspect
+  public func esEvent(get_task_name es: EndpointSecurity.es_event_get_task_name_t) -> sEndpointSecurity.ESEvent.GetTaskName
+  public func esEvent(getattrlist es: EndpointSecurity.es_event_getattrlist_t) -> sEndpointSecurity.ESEvent.GetAttrList
+  public func esEvent(getextattr es: EndpointSecurity.es_event_getextattr_t) -> sEndpointSecurity.ESEvent.GetExtAttr
+  public func esEvent(iokit_open es: EndpointSecurity.es_event_iokit_open_t) -> sEndpointSecurity.ESEvent.IOKitOpen
+  public func esEvent(kextload es: EndpointSecurity.es_event_kextload_t) -> sEndpointSecurity.ESEvent.KextLoad
+  public func esEvent(kextunload es: EndpointSecurity.es_event_kextunload_t) -> sEndpointSecurity.ESEvent.KextUnload
+  public func esEvent(link es: EndpointSecurity.es_event_link_t) -> sEndpointSecurity.ESEvent.Link
+  public func esEvent(listextattr es: EndpointSecurity.es_event_listextattr_t) -> sEndpointSecurity.ESEvent.ListExtAttr
+  public func esEvent(lookup es: EndpointSecurity.es_event_lookup_t) -> sEndpointSecurity.ESEvent.Lookup
+  public func esEvent(mmap es: EndpointSecurity.es_event_mmap_t) -> sEndpointSecurity.ESEvent.MMap
+  public func esEvent(mount es: EndpointSecurity.es_event_mount_t) -> sEndpointSecurity.ESEvent.Mount
+  public func esEvent(mprotect es: EndpointSecurity.es_event_mprotect_t) -> sEndpointSecurity.ESEvent.MProtect
+  public func esEvent(open es: EndpointSecurity.es_event_open_t) -> sEndpointSecurity.ESEvent.Open
+  public func esEvent(proc_check es: EndpointSecurity.es_event_proc_check_t) -> sEndpointSecurity.ESEvent.ProcCheck
+  public func esEvent(proc_suspend_resume es: EndpointSecurity.es_event_proc_suspend_resume_t) -> sEndpointSecurity.ESEvent.ProcSuspendResume
+  public func esEvent(pty_close es: EndpointSecurity.es_event_pty_close_t) -> sEndpointSecurity.ESEvent.PtyClose
+  public func esEvent(pty_grant es: EndpointSecurity.es_event_pty_grant_t) -> sEndpointSecurity.ESEvent.PtyGrant
+  public func esEvent(readdir es: EndpointSecurity.es_event_readdir_t) -> sEndpointSecurity.ESEvent.Readdir
+  public func esEvent(readlink es: EndpointSecurity.es_event_readlink_t) -> sEndpointSecurity.ESEvent.Readlink
+  public func esEvent(remote_thread_create es: EndpointSecurity.es_event_remote_thread_create_t) throws -> sEndpointSecurity.ESEvent.RemoteThreadCreate
+  public func esEvent(remount es: EndpointSecurity.es_event_remount_t) -> sEndpointSecurity.ESEvent.Remount
+  public func esEvent(rename es: EndpointSecurity.es_event_rename_t) throws -> sEndpointSecurity.ESEvent.Rename
+  public func esEvent(searchfs es: EndpointSecurity.es_event_searchfs_t) -> sEndpointSecurity.ESEvent.SearchFS
+  public func esEvent(setacl es: EndpointSecurity.es_event_setacl_t) -> sEndpointSecurity.ESEvent.SetACL
+  public func esEvent(setattrlist es: EndpointSecurity.es_event_setattrlist_t) -> sEndpointSecurity.ESEvent.SetAttrList
+  public func esEvent(setextattr es: EndpointSecurity.es_event_setextattr_t) -> sEndpointSecurity.ESEvent.SetExtAttr
+  public func esEvent(setflags es: EndpointSecurity.es_event_setflags_t) -> sEndpointSecurity.ESEvent.SetFlags
+  public func esEvent(setmode es: EndpointSecurity.es_event_setmode_t) -> sEndpointSecurity.ESEvent.SetMode
+  public func esEvent(setowner es: EndpointSecurity.es_event_setowner_t) -> sEndpointSecurity.ESEvent.SetOwner
+  public func esEvent(setuid es: EndpointSecurity.es_event_setuid_t) -> sEndpointSecurity.ESEvent.SetUID
+  public func esEvent(setgid es: EndpointSecurity.es_event_setgid_t) -> sEndpointSecurity.ESEvent.SetUID
+  public func esEvent(seteuid es: EndpointSecurity.es_event_seteuid_t) -> sEndpointSecurity.ESEvent.SetUID
+  public func esEvent(setegid es: EndpointSecurity.es_event_setegid_t) -> sEndpointSecurity.ESEvent.SetUID
+  public func esEvent(setreuid es: EndpointSecurity.es_event_setreuid_t) -> sEndpointSecurity.ESEvent.SetREUID
+  public func esEvent(setregid es: EndpointSecurity.es_event_setregid_t) -> sEndpointSecurity.ESEvent.SetREUID
+  public func esEvent(signal es: EndpointSecurity.es_event_signal_t) -> sEndpointSecurity.ESEvent.Signal
+  public func esEvent(stat es: EndpointSecurity.es_event_stat_t) -> sEndpointSecurity.ESEvent.Stat
+  public func esEvent(trace es: EndpointSecurity.es_event_trace_t) -> sEndpointSecurity.ESEvent.Trace
+  public func esEvent(truncate es: EndpointSecurity.es_event_truncate_t) -> sEndpointSecurity.ESEvent.Truncate
+  public func esEvent(uipc_bind es: EndpointSecurity.es_event_uipc_bind_t) -> sEndpointSecurity.ESEvent.UipcBind
+  public func esEvent(uipc_connect es: EndpointSecurity.es_event_uipc_connect_t) -> sEndpointSecurity.ESEvent.UipcConnect
+  public func esEvent(unlink es: EndpointSecurity.es_event_unlink_t) -> sEndpointSecurity.ESEvent.Unlink
+  public func esEvent(unmount es: EndpointSecurity.es_event_unmount_t) -> sEndpointSecurity.ESEvent.Unmount
+  public func esEvent(utimes es: EndpointSecurity.es_event_utimes_t) -> sEndpointSecurity.ESEvent.Utimes
+  public func esEvent(write es: EndpointSecurity.es_event_write_t) -> sEndpointSecurity.ESEvent.Write
+}
+public struct ESMessage : Swift.Equatable {
+  public var version: Swift.UInt32
+  public var time: Darwin.timespec
+  public var machTime: Swift.UInt64
+  public var deadline: Swift.UInt64
+  public var process: sEndpointSecurity.ESProcess
+  public var seqNum: Swift.UInt64?
+  public var action: sEndpointSecurity.ESMessage.Action
+  public var event: sEndpointSecurity.ESEvent
+  public var eventType: EndpointSecurity.es_event_type_t
+  public var thread: sEndpointSecurity.ESThread?
+  public var globalSeqNum: Swift.UInt64?
+  public enum Action : Swift.Equatable {
+    case auth
+    case notify(sEndpointSecurity.ESAuthResult)
+    public static func == (a: sEndpointSecurity.ESMessage.Action, b: sEndpointSecurity.ESMessage.Action) -> Swift.Bool
+  }
+  public static func == (a: sEndpointSecurity.ESMessage, b: sEndpointSecurity.ESMessage) -> Swift.Bool
+}
+public struct ESFile : Swift.Equatable {
+  public var path: Swift.String
+  public var truncated: Swift.Bool
+  public var stat: Darwin.stat
+  public static func == (a: sEndpointSecurity.ESFile, b: sEndpointSecurity.ESFile) -> Swift.Bool
+}
+public struct ESProcess : Swift.Equatable {
+  public var auditToken: Darwin.audit_token_t
+  public var ppid: Darwin.pid_t
+  public var originalPpid: Darwin.pid_t
+  public var groupID: Darwin.pid_t
+  public var sessionID: Darwin.pid_t
+  public var codesigningFlags: Swift.UInt32
+  public var isPlatformBinary: Swift.Bool
+  public var isESClient: Swift.Bool
+  public var cdHash: Foundation.Data
+  public var signingID: Swift.String
+  public var teamID: Swift.String
+  public var executable: sEndpointSecurity.ESFile
+  public var tty: sEndpointSecurity.ESFile?
+  public var startTime: Darwin.timeval?
+  public var responsibleAuditToken: Darwin.audit_token_t?
+  public var parentAuditToken: Darwin.audit_token_t?
+  public static func == (a: sEndpointSecurity.ESProcess, b: sEndpointSecurity.ESProcess) -> Swift.Bool
+}
+public struct ESAuthResult : Swift.Equatable, Swift.Codable, Swift.RawRepresentable {
+  public static func auth(_ auth: Swift.Bool) -> sEndpointSecurity.ESAuthResult
+  public static func flags(_ flags: Swift.UInt32) -> sEndpointSecurity.ESAuthResult
+  public var rawValue: Swift.UInt32
+  public init(rawValue: Swift.UInt32)
+  public typealias RawValue = Swift.UInt32
+}
+public struct ESThread : Swift.Equatable {
+  public var threadID: Swift.UInt64
+  public static func == (a: sEndpointSecurity.ESThread, b: sEndpointSecurity.ESThread) -> Swift.Bool
+}
+public struct ESThreadState : Swift.Equatable {
+  public var flavor: Swift.Int32
+  public var state: Foundation.Data
+  public static func == (a: sEndpointSecurity.ESThreadState, b: sEndpointSecurity.ESThreadState) -> Swift.Bool
+}
+public enum ESEvent : Swift.Equatable {
+  case access(sEndpointSecurity.ESEvent.Access)
+  case chdir(sEndpointSecurity.ESEvent.Chdir)
+  case chroot(sEndpointSecurity.ESEvent.Chroot)
+  case clone(sEndpointSecurity.ESEvent.Clone)
+  case copyfile(sEndpointSecurity.ESEvent.CopyFile)
+  case close(sEndpointSecurity.ESEvent.Close)
+  case create(sEndpointSecurity.ESEvent.Create)
+  case csInvalidated
+  case deleteextattr(sEndpointSecurity.ESEvent.DeleteExtAttr)
+  case dup(sEndpointSecurity.ESEvent.Dup)
+  case exchangedata(sEndpointSecurity.ESEvent.ExchangeData)
+  case exec(sEndpointSecurity.ESEvent.Exec)
+  case exit(sEndpointSecurity.ESEvent.Exit)
+  case fileProviderMaterialize(sEndpointSecurity.ESEvent.FileProviderMaterialize)
+  case fileProviderUpdate(sEndpointSecurity.ESEvent.FileProviderUpdate)
+  case fcntl(sEndpointSecurity.ESEvent.Fcntl)
+  case fork(sEndpointSecurity.ESEvent.Fork)
+  case fsgetpath(sEndpointSecurity.ESEvent.FsGetPath)
+  case getTask(sEndpointSecurity.ESEvent.GetTask)
+  case getTaskRead(sEndpointSecurity.ESEvent.GetTaskRead)
+  case getTaskInspect(sEndpointSecurity.ESEvent.GetTaskInspect)
+  case getTaskName(sEndpointSecurity.ESEvent.GetTaskName)
+  case getattrlist(sEndpointSecurity.ESEvent.GetAttrList)
+  case getextattr(sEndpointSecurity.ESEvent.GetExtAttr)
+  case iokitOpen(sEndpointSecurity.ESEvent.IOKitOpen)
+  case kextload(sEndpointSecurity.ESEvent.KextLoad)
+  case kextunload(sEndpointSecurity.ESEvent.KextUnload)
+  case link(sEndpointSecurity.ESEvent.Link)
+  case listextattr(sEndpointSecurity.ESEvent.ListExtAttr)
+  case lookup(sEndpointSecurity.ESEvent.Lookup)
+  case mmap(sEndpointSecurity.ESEvent.MMap)
+  case mount(sEndpointSecurity.ESEvent.Mount)
+  case mprotect(sEndpointSecurity.ESEvent.MProtect)
+  case open(sEndpointSecurity.ESEvent.Open)
+  case procCheck(sEndpointSecurity.ESEvent.ProcCheck)
+  case procSuspendResume(sEndpointSecurity.ESEvent.ProcSuspendResume)
+  case ptyClose(sEndpointSecurity.ESEvent.PtyClose)
+  case ptyGrant(sEndpointSecurity.ESEvent.PtyGrant)
+  case readdir(sEndpointSecurity.ESEvent.Readdir)
+  case readlink(sEndpointSecurity.ESEvent.Readlink)
+  case remoteThreadCreate(sEndpointSecurity.ESEvent.RemoteThreadCreate)
+  case remount(sEndpointSecurity.ESEvent.Remount)
+  case rename(sEndpointSecurity.ESEvent.Rename)
+  case searchfs(sEndpointSecurity.ESEvent.SearchFS)
+  case setacl(sEndpointSecurity.ESEvent.SetACL)
+  case setattrlist(sEndpointSecurity.ESEvent.SetAttrList)
+  case setextattr(sEndpointSecurity.ESEvent.SetExtAttr)
+  case setflags(sEndpointSecurity.ESEvent.SetFlags)
+  case setmode(sEndpointSecurity.ESEvent.SetMode)
+  case setowner(sEndpointSecurity.ESEvent.SetOwner)
+  case setuid(sEndpointSecurity.ESEvent.SetUID)
+  case setreuid(sEndpointSecurity.ESEvent.SetREUID)
+  case settime
+  case signal(sEndpointSecurity.ESEvent.Signal)
+  case stat(sEndpointSecurity.ESEvent.Stat)
+  case trace(sEndpointSecurity.ESEvent.Trace)
+  case truncate(sEndpointSecurity.ESEvent.Truncate)
+  case uipcBind(sEndpointSecurity.ESEvent.UipcBind)
+  case uipcConnect(sEndpointSecurity.ESEvent.UipcConnect)
+  case unlink(sEndpointSecurity.ESEvent.Unlink)
+  case unmount(sEndpointSecurity.ESEvent.Unmount)
+  case utimes(sEndpointSecurity.ESEvent.Utimes)
+  case write(sEndpointSecurity.ESEvent.Write)
+  public static func == (a: sEndpointSecurity.ESEvent, b: sEndpointSecurity.ESEvent) -> Swift.Bool
+}
+extension sEndpointSecurity.ESEvent {
+  public struct Access : Swift.Equatable {
+    public var mode: Swift.Int32
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Access, b: sEndpointSecurity.ESEvent.Access) -> Swift.Bool
+  }
+  public struct Chdir : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Chdir, b: sEndpointSecurity.ESEvent.Chdir) -> Swift.Bool
+  }
+  public struct Chroot : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Chroot, b: sEndpointSecurity.ESEvent.Chroot) -> Swift.Bool
+  }
+  public struct Clone : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public var targetDir: sEndpointSecurity.ESFile
+    public var targetName: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.Clone, b: sEndpointSecurity.ESEvent.Clone) -> Swift.Bool
+  }
+  public struct CopyFile : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public var targetFile: sEndpointSecurity.ESFile?
+    public var targetDir: sEndpointSecurity.ESFile
+    public var targetName: Swift.String
+    public var mode: Darwin.mode_t
+    public var flags: Swift.Int32
+    public static func == (a: sEndpointSecurity.ESEvent.CopyFile, b: sEndpointSecurity.ESEvent.CopyFile) -> Swift.Bool
+  }
+  public struct Close : Swift.Equatable {
+    public var modified: Swift.Bool
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Close, b: sEndpointSecurity.ESEvent.Close) -> Swift.Bool
+  }
+  public struct Create : Swift.Equatable {
+    public var destination: sEndpointSecurity.ESEvent.Create.Destination
+    public enum Destination : Swift.Equatable {
+      case existingFile(sEndpointSecurity.ESFile)
+      case newPath(dir: sEndpointSecurity.ESFile, filename: Swift.String, mode: Darwin.mode_t)
+      public static func == (a: sEndpointSecurity.ESEvent.Create.Destination, b: sEndpointSecurity.ESEvent.Create.Destination) -> Swift.Bool
+    }
+    public static func == (a: sEndpointSecurity.ESEvent.Create, b: sEndpointSecurity.ESEvent.Create) -> Swift.Bool
+  }
+  public struct DeleteExtAttr : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var extattr: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.DeleteExtAttr, b: sEndpointSecurity.ESEvent.DeleteExtAttr) -> Swift.Bool
+  }
+  public struct Dup : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Dup, b: sEndpointSecurity.ESEvent.Dup) -> Swift.Bool
+  }
+  public struct ExchangeData : Swift.Equatable {
+    public var file1: sEndpointSecurity.ESFile
+    public var file2: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.ExchangeData, b: sEndpointSecurity.ESEvent.ExchangeData) -> Swift.Bool
+  }
+  public struct Exec : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public var script: sEndpointSecurity.ESFile?
+    public var cwd: sEndpointSecurity.ESFile?
+    public var lastFD: Swift.Int32?
+    public static func == (a: sEndpointSecurity.ESEvent.Exec, b: sEndpointSecurity.ESEvent.Exec) -> Swift.Bool
+  }
+  public struct Exit : Swift.Equatable {
+    public var status: Swift.Int32
+    public static func == (a: sEndpointSecurity.ESEvent.Exit, b: sEndpointSecurity.ESEvent.Exit) -> Swift.Bool
+  }
+  public struct FileProviderMaterialize : Swift.Equatable {
+    public var instigator: sEndpointSecurity.ESProcess
+    public var source: sEndpointSecurity.ESFile
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.FileProviderMaterialize, b: sEndpointSecurity.ESEvent.FileProviderMaterialize) -> Swift.Bool
+  }
+  public struct FileProviderUpdate : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public var targetPath: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.FileProviderUpdate, b: sEndpointSecurity.ESEvent.FileProviderUpdate) -> Swift.Bool
+  }
+  public struct Fcntl : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var cmd: Swift.Int32
+    public static func == (a: sEndpointSecurity.ESEvent.Fcntl, b: sEndpointSecurity.ESEvent.Fcntl) -> Swift.Bool
+  }
+  public struct Fork : Swift.Equatable {
+    public var child: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.Fork, b: sEndpointSecurity.ESEvent.Fork) -> Swift.Bool
+  }
+  public struct FsGetPath : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.FsGetPath, b: sEndpointSecurity.ESEvent.FsGetPath) -> Swift.Bool
+  }
+  public struct GetTask : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.GetTask, b: sEndpointSecurity.ESEvent.GetTask) -> Swift.Bool
+  }
+  public struct GetTaskRead : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.GetTaskRead, b: sEndpointSecurity.ESEvent.GetTaskRead) -> Swift.Bool
+  }
+  public struct GetTaskInspect : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.GetTaskInspect, b: sEndpointSecurity.ESEvent.GetTaskInspect) -> Swift.Bool
+  }
+  public struct GetTaskName : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.GetTaskName, b: sEndpointSecurity.ESEvent.GetTaskName) -> Swift.Bool
+  }
+  public struct GetAttrList : Swift.Equatable {
+    public var attrlist: Darwin.attrlist
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.GetAttrList, b: sEndpointSecurity.ESEvent.GetAttrList) -> Swift.Bool
+  }
+  public struct GetExtAttr : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var extattr: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.GetExtAttr, b: sEndpointSecurity.ESEvent.GetExtAttr) -> Swift.Bool
+  }
+  public struct IOKitOpen : Swift.Equatable {
+    public var userClientType: Swift.UInt32
+    public var userClientClass: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.IOKitOpen, b: sEndpointSecurity.ESEvent.IOKitOpen) -> Swift.Bool
+  }
+  public struct KextLoad : Swift.Equatable {
+    public var identifier: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.KextLoad, b: sEndpointSecurity.ESEvent.KextLoad) -> Swift.Bool
+  }
+  public struct KextUnload : Swift.Equatable {
+    public var identifier: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.KextUnload, b: sEndpointSecurity.ESEvent.KextUnload) -> Swift.Bool
+  }
+  public struct Link : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public var targetDir: sEndpointSecurity.ESFile
+    public var targetFilename: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.Link, b: sEndpointSecurity.ESEvent.Link) -> Swift.Bool
+  }
+  public struct ListExtAttr : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.ListExtAttr, b: sEndpointSecurity.ESEvent.ListExtAttr) -> Swift.Bool
+  }
+  public struct Lookup : Swift.Equatable {
+    public var sourceDir: sEndpointSecurity.ESFile
+    public var relativeTarget: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.Lookup, b: sEndpointSecurity.ESEvent.Lookup) -> Swift.Bool
+  }
+  public struct MMap : Swift.Equatable {
+    public var protection: Swift.Int32
+    public var maxProtection: Swift.Int32
+    public var flags: Swift.Int32
+    public var filePos: Swift.UInt64
+    public var source: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.MMap, b: sEndpointSecurity.ESEvent.MMap) -> Swift.Bool
+  }
+  public struct Mount : Swift.Equatable {
+    public var statfs: Darwin.statfs
+    public static func == (a: sEndpointSecurity.ESEvent.Mount, b: sEndpointSecurity.ESEvent.Mount) -> Swift.Bool
+  }
+  public struct MProtect : Swift.Equatable {
+    public var protection: Swift.Int32
+    public var address: Darwin.user_addr_t
+    public var size: Darwin.user_size_t
+    public static func == (a: sEndpointSecurity.ESEvent.MProtect, b: sEndpointSecurity.ESEvent.MProtect) -> Swift.Bool
+  }
+  public struct Open : Swift.Equatable {
+    public var fflag: Swift.Int32
+    public var file: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Open, b: sEndpointSecurity.ESEvent.Open) -> Swift.Bool
+  }
+  public struct ProcCheck : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess?
+    public var type: EndpointSecurity.es_proc_check_type_t
+    public var flavor: Swift.Int32
+    public static func == (a: sEndpointSecurity.ESEvent.ProcCheck, b: sEndpointSecurity.ESEvent.ProcCheck) -> Swift.Bool
+  }
+  public struct ProcSuspendResume : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess?
+    public var type: EndpointSecurity.es_proc_suspend_resume_type_t
+    public static func == (a: sEndpointSecurity.ESEvent.ProcSuspendResume, b: sEndpointSecurity.ESEvent.ProcSuspendResume) -> Swift.Bool
+  }
+  public struct PtyClose : Swift.Equatable {
+    public var dev: Darwin.dev_t
+    public static func == (a: sEndpointSecurity.ESEvent.PtyClose, b: sEndpointSecurity.ESEvent.PtyClose) -> Swift.Bool
+  }
+  public struct PtyGrant : Swift.Equatable {
+    public var dev: Darwin.dev_t
+    public static func == (a: sEndpointSecurity.ESEvent.PtyGrant, b: sEndpointSecurity.ESEvent.PtyGrant) -> Swift.Bool
+  }
+  public struct Readdir : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Readdir, b: sEndpointSecurity.ESEvent.Readdir) -> Swift.Bool
+  }
+  public struct Readlink : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Readlink, b: sEndpointSecurity.ESEvent.Readlink) -> Swift.Bool
+  }
+  public struct RemoteThreadCreate : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public var threadState: sEndpointSecurity.ESThreadState?
+    public static func == (a: sEndpointSecurity.ESEvent.RemoteThreadCreate, b: sEndpointSecurity.ESEvent.RemoteThreadCreate) -> Swift.Bool
+  }
+  public struct Remount : Swift.Equatable {
+    public var statfs: Darwin.statfs
+    public static func == (a: sEndpointSecurity.ESEvent.Remount, b: sEndpointSecurity.ESEvent.Remount) -> Swift.Bool
+  }
+  public struct Rename : Swift.Equatable {
+    public var source: sEndpointSecurity.ESFile
+    public var destination: sEndpointSecurity.ESEvent.Rename.Destination
+    public enum Destination : Swift.Equatable {
+      case existingFile(sEndpointSecurity.ESFile)
+      case newPath(dir: sEndpointSecurity.ESFile, filename: Swift.String)
+      public static func == (a: sEndpointSecurity.ESEvent.Rename.Destination, b: sEndpointSecurity.ESEvent.Rename.Destination) -> Swift.Bool
+    }
+    public static func == (a: sEndpointSecurity.ESEvent.Rename, b: sEndpointSecurity.ESEvent.Rename) -> Swift.Bool
+  }
+  public struct SearchFS : Swift.Equatable {
+    public var attrlist: Darwin.attrlist
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.SearchFS, b: sEndpointSecurity.ESEvent.SearchFS) -> Swift.Bool
+  }
+  public struct SetACL : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var setOrClear: EndpointSecurity.es_set_or_clear_t
+    public static func == (a: sEndpointSecurity.ESEvent.SetACL, b: sEndpointSecurity.ESEvent.SetACL) -> Swift.Bool
+  }
+  public struct SetAttrList : Swift.Equatable {
+    public var attrlist: Darwin.attrlist
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.SetAttrList, b: sEndpointSecurity.ESEvent.SetAttrList) -> Swift.Bool
+  }
+  public struct SetExtAttr : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var extattr: Swift.String
+    public static func == (a: sEndpointSecurity.ESEvent.SetExtAttr, b: sEndpointSecurity.ESEvent.SetExtAttr) -> Swift.Bool
+  }
+  public struct SetFlags : Swift.Equatable {
+    public var flags: Swift.UInt32
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.SetFlags, b: sEndpointSecurity.ESEvent.SetFlags) -> Swift.Bool
+  }
+  public struct SetMode : Swift.Equatable {
+    public var mode: Darwin.mode_t
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.SetMode, b: sEndpointSecurity.ESEvent.SetMode) -> Swift.Bool
+  }
+  public struct SetOwner : Swift.Equatable {
+    public var uid: Darwin.uid_t
+    public var gid: Darwin.gid_t
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.SetOwner, b: sEndpointSecurity.ESEvent.SetOwner) -> Swift.Bool
+  }
+  public struct SetUID : Swift.Equatable {
+    public var uid: Darwin.uid_t
+    public static func == (a: sEndpointSecurity.ESEvent.SetUID, b: sEndpointSecurity.ESEvent.SetUID) -> Swift.Bool
+  }
+  public struct SetREUID : Swift.Equatable {
+    public var ruid: Darwin.uid_t
+    public var euid: Darwin.uid_t
+    public static func == (a: sEndpointSecurity.ESEvent.SetREUID, b: sEndpointSecurity.ESEvent.SetREUID) -> Swift.Bool
+  }
+  public struct Signal : Swift.Equatable {
+    public var sig: Swift.Int32
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.Signal, b: sEndpointSecurity.ESEvent.Signal) -> Swift.Bool
+  }
+  public struct Stat : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Stat, b: sEndpointSecurity.ESEvent.Stat) -> Swift.Bool
+  }
+  public struct Trace : Swift.Equatable {
+    public var target: sEndpointSecurity.ESProcess
+    public static func == (a: sEndpointSecurity.ESEvent.Trace, b: sEndpointSecurity.ESEvent.Trace) -> Swift.Bool
+  }
+  public struct Truncate : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Truncate, b: sEndpointSecurity.ESEvent.Truncate) -> Swift.Bool
+  }
+  public struct UipcBind : Swift.Equatable {
+    public var dir: sEndpointSecurity.ESFile
+    public var filename: Swift.String
+    public var mode: Darwin.mode_t
+    public static func == (a: sEndpointSecurity.ESEvent.UipcBind, b: sEndpointSecurity.ESEvent.UipcBind) -> Swift.Bool
+  }
+  public struct UipcConnect : Swift.Equatable {
+    public var file: sEndpointSecurity.ESFile
+    public var domain: Swift.Int32
+    public var type: Swift.Int32
+    public var `protocol`: Swift.Int32
+    public static func == (a: sEndpointSecurity.ESEvent.UipcConnect, b: sEndpointSecurity.ESEvent.UipcConnect) -> Swift.Bool
+  }
+  public struct Unlink : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var parentDir: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Unlink, b: sEndpointSecurity.ESEvent.Unlink) -> Swift.Bool
+  }
+  public struct Unmount : Swift.Equatable {
+    public var statfs: Darwin.statfs
+    public static func == (a: sEndpointSecurity.ESEvent.Unmount, b: sEndpointSecurity.ESEvent.Unmount) -> Swift.Bool
+  }
+  public struct Utimes : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public var aTime: Darwin.timespec
+    public var mTime: Darwin.timespec
+    public static func == (a: sEndpointSecurity.ESEvent.Utimes, b: sEndpointSecurity.ESEvent.Utimes) -> Swift.Bool
+  }
+  public struct Write : Swift.Equatable {
+    public var target: sEndpointSecurity.ESFile
+    public static func == (a: sEndpointSecurity.ESEvent.Write, b: sEndpointSecurity.ESEvent.Write) -> Swift.Bool
+  }
+}
+public enum sEndpointSecurityLogSubsystem : Swift.String, SwiftConvenience.SCLogSubsystem {
+  case client
+  case xpcClient
+  case xpcCommunication
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension sEndpointSecurity.sEndpointSecurityLogSubsystem : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public class ESXPCClient {
+  public var authMessageHandler: ((sEndpointSecurity.ESMessagePtr, @escaping (sEndpointSecurity.ESAuthResolution) -> Swift.Void) -> Swift.Void)?
+  public var notifyMessageHandler: ((sEndpointSecurity.ESMessagePtr) -> Swift.Void)?
+  public var customMessageHandler: ((sEndpointSecurity.ESXPCCustomMessage) -> Swift.Void)?
+  public var connectionStateHandler: ((Swift.Result<EndpointSecurity.es_new_client_result_t, Swift.Error>) -> Swift.Void)?
+  convenience public init(_ createConnection: @autoclosure @escaping () -> Foundation.NSXPCConnection)
+  public init(_ createConnection: @escaping () -> Foundation.NSXPCConnection)
+  @objc deinit
+  public func activate(completion: @escaping (Swift.Result<EndpointSecurity.es_new_client_result_t, Swift.Error>) -> Swift.Void)
+  public func activate() throws -> EndpointSecurity.es_new_client_result_t
+  public func invalidate()
+  public func subscribe(_ events: [EndpointSecurity.es_event_type_t], completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func unsubscribe(_ events: [EndpointSecurity.es_event_type_t], completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func unsubscribeAll(completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func clearCache(completion: @escaping (Swift.Result<EndpointSecurity.es_clear_cache_result_t, Swift.Error>) -> Swift.Void)
+  public func muteProcess(_ mute: sEndpointSecurity.ESMuteProcess, completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func unmuteProcess(_ mute: sEndpointSecurity.ESMuteProcess, completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func mutePath(prefix: Swift.String, completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func mutePath(literal: Swift.String, completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func unmuteAllPaths(completion: @escaping (Swift.Result<Swift.Bool, Swift.Error>) -> Swift.Void)
+  public func custom(_ custom: sEndpointSecurity.ESXPCCustomMessage, completion: @escaping (Swift.Error?) -> Swift.Void)
+}
+public struct ESXPCCustomMessage {
+  public var id: Foundation.UUID
+  public var payload: Foundation.Data
+  public var isReply: Swift.Bool
+  public init(id: Foundation.UUID, payload: Foundation.Data, isReply: Swift.Bool)
+}
+extension sEndpointSecurity.ESXPCCustomMessage {
+  public static func request(_ payload: Foundation.Data) -> sEndpointSecurity.ESXPCCustomMessage
+  public static func response(id: Foundation.UUID, payload: Foundation.Data) -> sEndpointSecurity.ESXPCCustomMessage
+}
+@objc public class ESXPCService : ObjectiveC.NSObject {
+  public var verifyConnectionHandler: ((Darwin.audit_token_t) -> Swift.Bool)?
+  public var receiveCustomMessageHandler: ((_ message: sEndpointSecurity.ESXPCCustomMessage, _ peer: Foundation.UUID) -> Swift.Void)?
+  public init(listener: Foundation.NSXPCListener, createClient: @escaping () throws -> sEndpointSecurity.ESClient)
+  public func activate()
+  public func sendCustomMessage(_ message: sEndpointSecurity.ESXPCCustomMessage, to peer: Foundation.UUID)
+  @objc deinit
+}
+extension sEndpointSecurity.ESXPCService : Foundation.NSXPCListenerDelegate {
+  @objc dynamic public func listener(_ listener: Foundation.NSXPCListener, shouldAcceptNewConnection newConnection: Foundation.NSXPCConnection) -> Swift.Bool
+}
+extension sEndpointSecurity.ESClient.ResponseReason : Swift.Equatable {}
+extension sEndpointSecurity.ESClient.ResponseReason : Swift.Hashable {}
+extension sEndpointSecurity.sEndpointSecurityLogSubsystem : Swift.Equatable {}
+extension sEndpointSecurity.sEndpointSecurityLogSubsystem : Swift.Hashable {}
+extension sEndpointSecurity.sEndpointSecurityLogSubsystem : Swift.RawRepresentable {}
