@@ -1,5 +1,3 @@
-# sEndpointSecurity-Public
-sEndpointSecurity Public demo
 # sEndpointSecurity
 
 # Intro
