@@ -1,6 +1,5 @@
 # sEndpointSecurity
 
-## Intro
 With macOS 10.15 Catalina, Apple released beautiful framework EndpointSecurity. It is a usermode replacement for kAuth and MACF mechanisms previously available only from the Kernel.
 
 The framework provides lots functionality...but is plain C
