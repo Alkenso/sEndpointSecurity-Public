@@ -98,7 +98,7 @@ client.subscribe([ES_EVENT_TYPE_AUTH_EXEC, ES_EVENT_TYPE_NOTIFY_EXIT]) { result 
 }
 
 
-withExtendedLifetime(client) {}
+withExtendedLifetime(client) { RunLoop.main.run() }
 ```
 
 #### ESXPCService
