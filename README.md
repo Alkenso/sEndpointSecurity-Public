@@ -1,6 +1,6 @@
 # sEndpointSecurity
 
-# Intro
+## Intro
 With macOS 10.15 Catalina, Apple released beautiful framework EndpointSecurity. It is a usermode replacement for kAuth and MACF mechanisms previously available only from the Kernel.
 
 The framework provides lots functionality...but is plain C
@@ -11,7 +11,7 @@ The framework provides lots functionality...but is plain C
 
 For full, unlimited version and sources, consider contact me via pull request, issues or directly at wl9pa2@gmail.com.
 
-# Motivation
+## Motivation
 
 sEndpointSecurity is Swift wrapper around ES C API and was written with three main goals is mind
 - provide convenient, Swift-style approach to EndpointSecurity API
@@ -26,10 +26,10 @@ This cause whole OS to hang until the client is killed by EndpontSecurity.kext f
 sEndpointSecurity provides approach to deal with debugging - XPC wrapper around ES client.
 So we move events receiving and responding to another process and deal with it over XPC. That allows us to debug the application.
 
-# API
+## API
 The rare one likes ReadMe without code samples. Here they are
 
-## ESClient
+### ESClient
 
 ESClient is a Swift wrapper around EndpointSecurity C API with a bit extended functional for convenience
 
@@ -63,8 +63,8 @@ guard client.subscribe([ES_EVENT_TYPE_AUTH_EXEC, ES_EVENT_TYPE_NOTIFY_EXIT]) els
 withExtendedLifetime(client) { RunLoop.main.run() }
 ```
 
-## ES over XPC
-### ESXPCClient
+### ES over XPC
+#### ESXPCClient
 ESXPCClient is client counterpart of ES over XPC implementation. It looks very close to ESClient, but have some differences due to asynchronous XPC nature
 
 ```
@@ -102,7 +102,7 @@ client.subscribe([ES_EVENT_TYPE_AUTH_EXEC, ES_EVENT_TYPE_NOTIFY_EXIT]) { result 
 withExtendedLifetime(client) {}
 ```
 
-### ESXPCService
+#### ESXPCService
 ESXPCService is service counterpart of ES over XPC implementation. It is created in the process that actually works with ES framework.
 
 ```
@@ -117,5 +117,5 @@ service.activate()
 withExtendedLifetime(service) { RunLoop.main.run() }
 ```
 
-# Dependencies
+## Dependencies
 The package is designed with the minimum dependencies. At the moment, it it the only one utility library SwiftConvenience (no additional dependencies)
