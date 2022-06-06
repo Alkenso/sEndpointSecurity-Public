@@ -10,7 +10,7 @@ let package = Package(
     products: [
         .library(
             name: "sEndpointSecurityDemo",
-            targets: ["sEndpointSecurityDemo"]
+            targets: ["sEndpointSecurity"]
         ),
         .library(
             name: "sEndpointSecurityLinkDependencies",
@@ -27,7 +27,7 @@ let package = Package(
             linkerSettings: [.linkedLibrary("EndpointSecurity")]
         ),
         .binaryTarget(
-            name: "sEndpointSecurityDemo",
+            name: "sEndpointSecurity",
             path: "Binaries/sEndpointSecurity/sEndpointSecurity.xcframework"
         ),
     ]
